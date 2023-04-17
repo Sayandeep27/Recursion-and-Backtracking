@@ -1,0 +1,33 @@
+ void solve(int i,int sum,vector<int>&arr,int n,vector<int>&ans)
+   {
+       // base case
+       if(i==n)
+       {
+           ans.push_back(sum);
+           return;
+       }
+       
+       
+       
+       // pick
+       solve(i+1,sum+arr[i],arr,n,ans);
+       
+       // don't pick
+       solve(i+1,sum,arr,n,ans);
+   }
+
+
+    vector<int> subsetSums(vector<int> arr, int n)
+    {
+        // Write Your Code here
+        
+        vector<int>ans;
+        
+        solve(0,0,arr,n,ans);
+        
+        sort(ans.begin(),ans.end());
+        
+        return ans;
+        
+        
+    }
