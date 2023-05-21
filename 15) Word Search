@@ -1,0 +1,65 @@
+class Solution {
+public:
+   
+
+    bool solve(int row,int col,vector<vector<char>>&grid,string word,int index)
+    {
+        int n=grid.size();
+        int m=grid[0].size();
+
+        // base case
+
+        if(index==word.size()) return true;
+
+        int delrow[]={-1,0,+1,0};
+        int delcol[]={0,+1,0,-1};
+
+        for(int i=0;i<4;i++)
+        {
+            int newrow=row+delrow[i];
+            int newcol=col+delcol[i];
+
+            if(newrow>=0 and newrow<n and newcol>=0 and newcol<m and grid[newrow][newcol]!='1' and grid[newrow][newcol]==word[index])
+            {
+                char ch=grid[newrow][newcol];
+                grid[newrow][newcol]='1';
+                if(solve(newrow,newcol,grid,word,index+1)) return true;
+
+                grid[newrow][newcol]=ch;
+            }
+        }
+
+
+        return false;
+    }
+
+
+    bool exist(vector<vector<char>>& grid, string word) {
+           
+           int n=grid.size();
+           int m=grid[0].size();
+           
+           int index=0;
+
+
+           for(int i=0;i<n;i++)
+           {
+               for(int j=0;j<m;j++)
+               {
+                   if(grid[i][j]==word[index])
+                   {
+                       char ch=grid[i][j];
+                       grid[i][j]='1';
+
+                       if(solve(i,j,grid,word,index+1)) return true;
+
+                       grid[i][j]=ch;
+                   }
+               }
+           
+           }
+
+         return false;
+
+    }
+};
