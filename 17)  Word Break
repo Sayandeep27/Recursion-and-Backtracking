@@ -1,0 +1,63 @@
+class Solution {
+public:
+    
+
+   bool check(int i,set<string>&st,string s,vector<int>&dp)
+   {
+       // base case
+       
+       if(i>=s.size()) return true;
+
+       if(dp[i]!=-1) return dp[i];
+
+
+       string str="";
+
+       for(int j=i;j<s.size();j++)
+       {
+           str+=s[j];
+
+           if(st.find(str)!=st.end())
+           {
+               if(check(j+1,st,s,dp)) return dp[j]=true;
+           }
+       }
+
+
+       return dp[i]=false;
+
+   }
+   
+    
+    bool wordBreak(string s, vector<string>& dict) {
+     
+       set<string>st;
+
+       for(auto it:dict) st.insert(it);
+       
+        int n=s.size();
+
+       vector<int>dp(n+1,-1);
+
+       int i=0;
+
+       string str="";
+
+       for(int i=0;i<s.size();i++)
+       {
+           str+=s[i];
+
+           if(st.find(str)!=st.end())  // if this is present in dictionary
+           {
+               if(check(i+1,st,s,dp)) return true;
+           }
+
+
+       }
+
+
+       return false;
+      
+
+    }
+};
