@@ -1,98 +1,104 @@
 class Solution {
 public:
 
-    bool valid(int row,int col,vector<string>temp)
-    { 
+     bool is_valid(int row,int col,vector<string>board)
+     {
+         int n=board.size();
+         int m=board[0].size();  // n==m
+          
+         // horizontal 
+         for(int j=0;j<n;j++)
+         {
+             if(board[row][j]=='Q') return false;
+         }
 
-        int n=temp.size();
+         // vertical
+         for(int i=0;i<n;i++)
+         {
+             if(board[i][col]=='Q') return false;
+         }
 
-        for(int col=0;col<n;col++)
-        {
-            if(temp[row][col]!='.') return false;
-        }
+         int i=row,j=col;
 
+         while(i>=0 and j>=0)
+         {
+             if(board[i][j]=='Q') return false;
 
-        for(int row=0;row<n;row++)
-        {
-            if(temp[row][col]!='.') return false;
-
-        }
-
-        int i=row,j=col;
-        
-        while(i>=0 and j>=0)
-        {
-             if(temp[i][j]!='.') return false;
              i--;
              j--;
-        }
-
+         }
 
          i=row,j=col;
 
-        while(i>=0 and j<n)
-        {
-            if(temp[i][j]!='.') return false;
+         while(i<n and j>=0)
+         {
+             if(board[i][j]=='Q') return false;
 
-            i--;
-            j++;
-        }
+             i++;
+             j--;
+         }
+
+         i=row,j=col;
+
+         while(i>=0 and j<m)
+         {
+             if(board[i][j]=='Q') return false;
+             i--;
+             j++;
+         }
+
+         i=row,j=col;
+
+         while(i<n and j<m)
+         {
+             if(board[i][j]=='Q') return false;
+             i++;
+             j++;
+         }
 
 
-        return true;
+       return true;
 
-
-    }
-  
-    void solve(int index,int cnt,int n,vector<string>temp,vector<vector<string>>&ans)
+     }
+    
+    void solve(vector<string>&board,vector<vector<string>>&ans,int col,int n)
     {
-        // base case
-
-        if(cnt==n)
+        //base case
+        if(col==n)
         {
-            ans.push_back(temp);
+            ans.push_back(board);
             return;
         }
 
-        if(index>=n) return;
-
-
-
         for(int row=0;row<n;row++)
         {
-            if(valid(index,row,temp))
+            if(is_valid(row,col,board))
             {
-                temp[index][row]='Q';
+                board[row][col]='Q';
 
-                solve(index+1,cnt+1,n,temp,ans);
+                solve(board,ans,col+1,n);
 
-                temp[index][row]='.';
+                board[row][col]='.';
             }
         }
-
 
     }
 
     vector<vector<string>> solveNQueens(int n) {
-    
-      vector<vector<string>>ans;
+         vector<vector<string>>ans;
 
-      vector<string>temp;  // matrix  
-      
-      string str=""; 
+         vector<string>board;
 
-      for(int i=0;i<n;i++) str+='.';
+         string str="";
+        
+        // making the first empty board
 
+         for(int i=0;i<n;i++) str+='.';
 
-      for(int i=0;i<n;i++) temp.push_back(str);
+         for(int i=0;i<n;i++) board.push_back(str);
 
+         solve(board,ans,0,n);
 
-
-      solve(0,0,n,temp,ans);
-
-
-      return ans;
-
-
+         return ans;
     }
 };
