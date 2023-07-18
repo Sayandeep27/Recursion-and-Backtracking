@@ -1,0 +1,39 @@
+class Solution {
+public:
+    vector<vector<int>>ans;
+    vector<int>temp;
+
+
+    void solve(int i,vector<int>&nums)
+    {
+        int n=nums.size();
+
+        // base case
+        if(i==n)
+        {
+            ans.push_back(temp);
+            return;
+        }
+
+
+        for(int j=i;j<n;j++)
+        {
+            swap(nums[i],nums[j]);
+            temp.push_back(nums[i]);
+
+            solve(i+1,nums);
+
+            temp.pop_back();
+            swap(nums[i],nums[j]);
+        }
+    }
+
+    vector<vector<int>> permute(vector<int>& nums) {
+        
+        int n=nums.size();
+
+        solve(0,nums);
+
+        return ans;
+    }
+};
