@@ -1,0 +1,32 @@
+TC - O(2^N)
+
+long long toh(int n, int source, int target, int aux) {
+        
+        long long moves=0;
+        
+          
+        // Base case - If there is only 1 disk,move it from source to target
+        if(n==1)
+        {
+            cout<<"move disk 1 from rod "<<source<<" to rod "<<target<<endl;
+            return 1; // On;y one move has been made
+        }
+        
+        
+        // move n-1 disks from source to aux using target as temporary peg
+        moves+=toh(n-1,source,aux,target);
+        
+        
+        // move the nth disk from source to target
+        cout<<"move disk "<<n<<" from rod "<<source<<" to rod "<<target<<endl;
+        moves+=1;
+        
+        
+        // move n-1 disks from aux to target using source as temporary peg
+        moves+=toh(n-1,aux,target,source);
+        
+        
+        return moves;
+        
+        
+    }
