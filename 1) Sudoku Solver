@@ -1,22 +1,43 @@
+TC - O(9^N^2)
+SC- O(N^2)
+
+
 class Solution {
 public:
-   
-   bool isValid(vector<vector<char>>&board,int row,int col,char ch)
-   {
-      
-      
-      for(int i=0;i<9;i++)
-      {
-          if(board[i][col]==ch) return false;
 
-          if(board[row][i]==ch) return false;
+    bool is_valid(vector<vector<char>>&board,int row,int col,char num)
+    {
+        int n=board.size();
+        int m=board[0].size();
 
-          if(board[3*(row/3)+i/3][3*(col/3)+i%3]==ch) return false;
-      }
-       
-      return true; 
+        // checking the cols
+        for(int i=0;i<n;i++)
+        {
+            if(board[i][col]==num) return false;
+        }
+        
+        // checking the rows
+        for(int j=0;j<m;j++)
+        {
+            if(board[row][j]==num) return false;
+        }
+
+
+        // check the 3*3 subgrid
+        int startrow=row-row%3;
+        int startcol=col-col%3;
+
+        for(int i=0;i<3;i++)
+        {
+            for(int j=0;j<3;j++)
+            {
+                if(board[i+startrow][j+startcol]==num) return false;
+            }
+        }
       
-   }
+      return true;
+
+    }
 
    bool solver(vector<vector<char>>&board)
    {
@@ -31,7 +52,7 @@ public:
              {
                   for(char ch='1';ch<='9';ch++)
                   {
-                      if(isValid(board,i,j,ch))
+                      if(is_valid(board,i,j,ch))
                       {
                           board[i][j]=ch;
 
@@ -55,10 +76,10 @@ public:
 
    }
 
- 
 
     void solveSudoku(vector<vector<char>>& board) {
-           
-           solver(board);
+        
+        solver(board);
+
     }
 };
