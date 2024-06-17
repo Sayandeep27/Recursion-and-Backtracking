@@ -1,32 +1,33 @@
-
 class Solution{
     public:
     
-    char check(int delrow,int delcol)
+    vector<string>ans;
+    
+    char findchar(int delrow,int delcol)
     {
-        if(delrow==-1 and delcol==0) return 'U';
-        
-        if(delrow==0 and delcol==1) return 'R';
-        
-        if(delrow==1 and delcol==0) return 'D';
-        
-        if(delrow==0 and delcol==-1) return 'L';
+      if(delrow==0 and delcol==1) return 'R';
+      if(delrow==0 and delcol==-1) return 'L';
+      if(delrow==-1 and delcol==0) return 'U';
+      if(delrow==1 and delcol==0) return 'D';
+      
     }
     
-    void solve(int row,int col,vector<vector<int>>&grid,string &str,vector<string>&ans,vector<vector<int>>&visited)
+    
+    void solve(int row,int col,vector<vector<int>>&grid,vector<vector<int>>&visited,string s)
     {
-        
         int n=grid.size();
-        int m=grid[0].size();  // n==m
+        int m=grid[0].size();
         
-        // base case
+        // base cases
+        
         if(grid[0][0]==0) return;
         
         if(row==n-1 and col==m-1)
         {
-            ans.push_back(str);
+            ans.push_back(s);
             return;
         }
+        
         
         visited[row][col]=1;
         
@@ -40,31 +41,29 @@ class Solution{
             
             if(newrow>=0 and newrow<n and newcol>=0 and newcol<m and grid[newrow][newcol]==1 and visited[newrow][newcol]==0)
             {
-                char ch=check(delrow[i],delcol[i]);
-                str.push_back(ch);
+                char ch=findchar(delrow[i],delcol[i]);
                 
-                solve(newrow,newcol,grid,str,ans,visited);
-                str.pop_back();
+                s.push_back(ch);
                 
-            }
-            else
-            {
-               continue; 
+                solve(newrow,newcol,grid,visited,s);
+                
+                s.pop_back();
             }
         }
         
-        
-        visited[row][col]=0;
-        
-        
+        visited[row][col]=0; // backtracking
     }
+
     
-    vector<string> findPath(vector<vector<int>> &grid, int n) {
-        string str="";
-        vector<string>ans;
-        vector<vector<int>>visited(n,vector<int>(n,0));
+    vector<string> findPath(vector<vector<int>>&grid, int n) {
         
-        solve(0,0,grid,str,ans,visited);
+        int m=n;  // as row==col
+        
+        string s="";
+        
+        vector<vector<int>>visited(n,vector<int>(m,0));
+        
+        solve(0,0,grid,visited,s);
         
         
         return ans;
